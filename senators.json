@@ -1,1 +1,22 @@
-[ ]
+[ {
+  "name" : "Cathy Giessel",
+  "position" : "Majority Leader",
+  "address" : "District E",
+  "phone" : "Party: Republican",
+  "email" : "",
+  "url" : "http://www.akleg.gov/basis/Member/Detail/34?code=gie"
+}, {
+  "name" : "Gary Stevens",
+  "position" : "Senate President",
+  "address" : "District C",
+  "phone" : "Party: Republican",
+  "email" : "",
+  "url" : "http://www.akleg.gov/basis/Member/Detail/34?code=stg"
+}, {
+  "name" : "Mike Shower",
+  "position" : "Minority Leader",
+  "address" : "District O",
+  "phone" : "Party: Republican",
+  "email" : "",
+  "url" : "http://www.akleg.gov/basis/Member/Detail/34?code=sho"
+} ]
