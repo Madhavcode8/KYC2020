@@ -11,64 +11,73 @@ import java.util.*;
 
 public class ScrapeSenators {
 
-    // A simple class to hold each senator's data
+    // Class matching your JSON structure
     public static class Senator {
         public String name;
         public String title;
-        public String position;
         public String party;
-        public String address;
-        public String phone;
-        public String email;
+        public String profile;
+        public String dob;
+        public String type;
+        public String country;
         public String url;
+        public String otherinfo;
 
-        public Senator(String name, String title, String position, String party,
-                       String address, String phone, String email, String url) {
+        public Senator(String name, String title, String party, String profile,
+                       String dob, String type, String country, String url, String otherinfo) {
             this.name = name;
             this.title = title;
-            this.position = position;
             this.party = party;
-            this.address = address;
-            this.phone = phone;
-            this.email = email;
+            this.profile = profile;
+            this.dob = dob;
+            this.type = type;
+            this.country = country;
             this.url = url;
+            this.otherinfo = otherinfo;
         }
     }
 
     public static void main(String[] args) {
         try {
-            // Step 1: Setup Chrome browser automatically
-            WebDriverManager.chromedriver().clearDriverCache().clearResolutionCache().setup();
+            // Setup Chrome browser
+            WebDriverManager.chromedriver().setup();
             WebDriver driver = new ChromeDriver();
 
-            // Step 2: Open the website
             driver.get("https://akleg.gov/senate.php");
-            Thread.sleep(3000); // wait a bit for the page to load
+            Thread.sleep(3000);
 
-            // Step 3: Find all senators (each inside a div with class 'member')
-            List<WebElement> members = driver.findElements(By.cssSelector(".member"));
+            // Find senator cards
+            List<WebElement> senators = driver.findElements(By.cssSelector(".people-list .person"));
 
-            // Step 4: Create a list to store all senator objects
             List<Senator> senatorList = new ArrayList<>();
 
-            // Step 5: Loop through each member and extract details
-            for (WebElement member : members) {
-                String name = safeGetText(member, By.cssSelector("class=\"people-list\""));
-                String url = safeGetAttribute(member, By.cssSelector("h3 a"), "href");
-                String title = safeGetText(member, By.xpath(".//p[contains(text(),'Title')]"));
-                String position = safeGetText(member, By.xpath(".//p[contains(text(),'Position')]"));
-                String party = safeGetText(member, By.xpath(".//p[contains(text(),'Party')]"));
-                String address = safeGetText(member, By.xpath(".//p[contains(text(),'Address')]"));
-                String phone = safeGetText(member, By.xpath(".//p[contains(text(),'Phone')]"));
-                String email = safeGetText(member, By.xpath(".//p[contains(text(),'Email')]"));
+            for (WebElement s : senators) {
+                String name = safeGetText(s, By.cssSelector("h3"));
+                String party = safeGetText(s, By.xpath(".//p[contains(text(),'Party')]"));
+                String profileUrl = safeGetAttribute(s, By.cssSelector("a"), "href");
 
-                senatorList.add(new Senator(name, title, position, party, address, phone, email, url));
+                // Construct a short profile text (can be updated)
+                String profile = "Senator profile page for " + name;
+
+                // Create object with blanks for missing fields
+                Senator senator = new Senator(
+                        name,
+                        "Senator",       // title
+                        party,
+                        profile,
+                        "",              // dob
+                        "Senate",        // type
+                        "USA",           // country
+                        profileUrl,
+                        ""               // otherinfo
+                );
+
+                senatorList.add(senator);
             }
 
-            // Step 6: Close the browser
             driver.quit();
 
-            // Step 7: Write data to JSON file
+            // Save to JSON
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("senators.json"), senatorList);
 
@@ -79,7 +88,6 @@ public class ScrapeSenators {
         }
     }
 
-    // Helper function to avoid errors if an element is missing
     private static String safeGetText(WebElement parent, By by) {
         try {
             return parent.findElement(by).getText();
