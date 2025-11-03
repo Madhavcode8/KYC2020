@@ -35,15 +35,13 @@ public class ScrapeSenators {
             WebDriver driver = new ChromeDriver();
 
             driver.get("https://akleg.gov/senate.php");
-            Thread.sleep(4000); // wait for the page to load fully
-
-            // ✅ The senator boxes are inside <li> inside <ul class="people-list">
-            List<WebElement> senatorCards = driver.findElements(By.cssSelector("ul.people-list > li"));
+            Thread.sleep(4000); // wait for page to load fully
 
             List<Senator> senatorList = new ArrayList<>();
 
+            // ✅ --- SECTION 1: scrape from <ul class="people-list"> ---
+            List<WebElement> senatorCards = driver.findElements(By.cssSelector("ul.people-list > li"));
             for (WebElement card : senatorCards) {
-                // ✅ Extract details using your HTML structure
                 String name = safeGetText(card, By.cssSelector("strong.name"));
                 String position = safeGetText(card, By.cssSelector("span.position"));
                 String address = safeGetText(card, By.cssSelector("ul.list-info li:nth-child(1)"));
@@ -54,20 +52,38 @@ public class ScrapeSenators {
                 senatorList.add(new Senator(name, position, address, phone, email, profileUrl));
             }
 
+            // ✅ --- SECTION 2: scrape from <ul class="item"> (your new section) ---
+            List<WebElement> peopleItems = driver.findElements(By.cssSelector("ul.item > li"));
+            for (WebElement person : peopleItems) {
+                String url = safeGetAttribute(person, By.cssSelector("a"), "href");
+                String city = safeGetText(person, By.xpath(".//dt[text()='City:']/following-sibling::dd[1]"));
+                String party = safeGetText(person, By.xpath(".//dt[text()='Party:']/following-sibling::dd[1]"));
+                String district = safeGetText(person, By.xpath(".//dt[text()='District:']/following-sibling::dd[1]"));
+                String phone = safeGetText(person, By.xpath(".//dt[text()='Phone:']/following-sibling::dd[1]"));
+                String tollFree = safeGetText(person, By.xpath(".//dt[text()='Toll-Free:']/following-sibling::dd[1]"));
+
+                // Name might be in the link text if not present in other tags
+                String name = safeGetText(person, By.cssSelector("a"));
+                String position = party; // optional - reuse or leave blank
+
+                senatorList.add(new Senator(name, position, city + " | " + district, phone, tollFree, url));
+            }
+
             driver.quit();
 
-            // ✅ Write to JSON
+            // ✅ --- Write to JSON ---
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("senators.json"), senatorList);
 
             System.out.println("✅ Data scraped and saved to senators.json!");
-            System.out.println("Total senators found: " + senatorList.size());
+            System.out.println("Total entries found: " + senatorList.size());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Helper methods
     private static String safeGetText(WebElement parent, By by) {
         try {
             return parent.findElement(by).getText().trim();
@@ -78,9 +94,10 @@ public class ScrapeSenators {
 
     private static String safeGetAttribute(WebElement parent, By by, String attr) {
         try {
-            return parent.findElement(by).getAttribute(attr);
+            return parent.findElement(by).getAttribute(attr).trim();
         } catch (Exception e) {
             return "";
         }
     }
 }
+//updated now
