@@ -1,3 +1,5 @@
+package KYC2020.KYC2020;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,7 +38,7 @@ public class ScrapeSenators {
     public static void main(String[] args) {
         try {
             // Step 1: Setup Chrome browser automatically
-            WebDriverManager.chromedriver().setup();
+            WebDriverManager.chromedriver().clearDriverCache().clearResolutionCache().setup();
             WebDriver driver = new ChromeDriver();
 
             // Step 2: Open the website
@@ -51,7 +53,7 @@ public class ScrapeSenators {
 
             // Step 5: Loop through each member and extract details
             for (WebElement member : members) {
-                String name = safeGetText(member, By.cssSelector("h3 a"));
+                String name = safeGetText(member, By.cssSelector("class=\"people-list\""));
                 String url = safeGetAttribute(member, By.cssSelector("h3 a"), "href");
                 String title = safeGetText(member, By.xpath(".//p[contains(text(),'Title')]"));
                 String position = safeGetText(member, By.xpath(".//p[contains(text(),'Position')]"));
