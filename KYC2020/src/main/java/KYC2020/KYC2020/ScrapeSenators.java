@@ -35,11 +35,12 @@ public class ScrapeSenators {
             WebDriver driver = new ChromeDriver();
 
             driver.get("https://akleg.gov/senate.php");
-            Thread.sleep(4000); // wait for page to load fully
+            Thread.sleep(4000); // wait for page load
 
             List<Senator> senatorList = new ArrayList<>();
+            Set<String> seenUrls = new HashSet<>();
 
-            // ✅ --- SECTION 1: scrape from <ul class="people-list"> ---
+            // ✅ SECTION 1: Top section (people-list)
             List<WebElement> senatorCards = driver.findElements(By.cssSelector("ul.people-list > li"));
             for (WebElement card : senatorCards) {
                 String name = safeGetText(card, By.cssSelector("strong.name"));
@@ -49,41 +50,46 @@ public class ScrapeSenators {
                 String email = safeGetText(card, By.cssSelector("ul.list-info li:nth-child(3) a"));
                 String profileUrl = safeGetAttribute(card, By.cssSelector("a"), "href");
 
-                senatorList.add(new Senator(name, position, address, phone, email, profileUrl));
+                if (!name.isEmpty() && !profileUrl.isEmpty() && seenUrls.add(profileUrl)) {
+                    senatorList.add(new Senator(name, position, address, phone, email, profileUrl));
+                }
             }
 
-            // ✅ --- SECTION 2: scrape from <ul class="item"> (your new section) ---
+            // ✅ SECTION 2: Bottom section (people-holder -> item)
             List<WebElement> peopleItems = driver.findElements(By.cssSelector("ul.item > li"));
             for (WebElement person : peopleItems) {
                 String url = safeGetAttribute(person, By.cssSelector("a"), "href");
+                String name = safeGetText(person, By.cssSelector("a"));
                 String city = safeGetText(person, By.xpath(".//dt[text()='City:']/following-sibling::dd[1]"));
                 String party = safeGetText(person, By.xpath(".//dt[text()='Party:']/following-sibling::dd[1]"));
                 String district = safeGetText(person, By.xpath(".//dt[text()='District:']/following-sibling::dd[1]"));
                 String phone = safeGetText(person, By.xpath(".//dt[text()='Phone:']/following-sibling::dd[1]"));
                 String tollFree = safeGetText(person, By.xpath(".//dt[text()='Toll-Free:']/following-sibling::dd[1]"));
 
-                // Name might be in the link text if not present in other tags
-                String name = safeGetText(person, By.cssSelector("a"));
-                String position = party; // optional - reuse or leave blank
+                String position = party.isEmpty() ? "" : party;
+                String address = (city + " | " + district).trim();
+                String email = tollFree;
 
-                senatorList.add(new Senator(name, position, city + " | " + district, phone, tollFree, url));
+                // ✅ Skip empty and duplicate entries
+                if (!name.isEmpty() && !url.isEmpty() && seenUrls.add(url)) {
+                    senatorList.add(new Senator(name, position, address, phone, email, url));
+                }
             }
 
             driver.quit();
 
-            // ✅ --- Write to JSON ---
+            // ✅ Write clean output
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("senators.json"), senatorList);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("senators_clean.json"), senatorList);
 
-            System.out.println("✅ Data scraped and saved to senators.json!");
-            System.out.println("Total entries found: " + senatorList.size());
+            System.out.println("✅ Clean data saved to senators_clean.json!");
+            System.out.println("✅ Total unique senators found: " + senatorList.size());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Helper methods
     private static String safeGetText(WebElement parent, By by) {
         try {
             return parent.findElement(by).getText().trim();
@@ -100,4 +106,4 @@ public class ScrapeSenators {
         }
     }
 }
-//updated now
+// final json //
