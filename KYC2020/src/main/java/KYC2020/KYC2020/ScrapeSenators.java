@@ -16,15 +16,15 @@ public class ScrapeSenators {
         public String position;
         public String address;
         public String phone;
-        public String email;
+        public String tollfree;
         public String url;
 
-        public Senator(String name, String position, String address, String phone, String email, String url) {
+        public Senator(String name, String position, String address, String phone, String tollfree, String url) {
             this.name = name;
             this.position = position;
             this.address = address;
             this.phone = phone;
-            this.email = email;
+            this.tollfree = tollfree;
             this.url = url;
         }
     }
@@ -40,22 +40,20 @@ public class ScrapeSenators {
             List<Senator> senatorList = new ArrayList<>();
             Set<String> seenUrls = new HashSet<>();
 
-            // ✅ SECTION 1: Top section (people-list)
             List<WebElement> senatorCards = driver.findElements(By.cssSelector("ul.people-list > li"));
             for (WebElement card : senatorCards) {
                 String name = safeGetText(card, By.cssSelector("strong.name"));
                 String position = safeGetText(card, By.cssSelector("span.position"));
                 String address = safeGetText(card, By.cssSelector("ul.list-info li:nth-child(1)"));
                 String phone = safeGetText(card, By.cssSelector("ul.list-info li:nth-child(2)"));
-                String email = safeGetText(card, By.cssSelector("ul.list-info li:nth-child(3) a"));
+                String tollfree = safeGetText(card, By.cssSelector("ul.list-info li:nth-child(3) a"));
                 String profileUrl = safeGetAttribute(card, By.cssSelector("a"), "href");
 
                 if (!name.isEmpty() && !profileUrl.isEmpty() && seenUrls.add(profileUrl)) {
-                    senatorList.add(new Senator(name, position, address, phone, email, profileUrl));
+                    senatorList.add(new Senator(name, position, address, phone, tollfree, profileUrl));
                 }
             }
 
-            // ✅ SECTION 2: Bottom section (people-holder -> item)
             List<WebElement> peopleItems = driver.findElements(By.cssSelector("ul.item > li"));
             for (WebElement person : peopleItems) {
                 String url = safeGetAttribute(person, By.cssSelector("a"), "href");
@@ -68,22 +66,20 @@ public class ScrapeSenators {
 
                 String position = party.isEmpty() ? "" : party;
                 String address = (city + " | " + district).trim();
-                String email = tollFree;
+                String tollfree = tollFree;
 
-                // ✅ Skip empty and duplicate entries
                 if (!name.isEmpty() && !url.isEmpty() && seenUrls.add(url)) {
-                    senatorList.add(new Senator(name, position, address, phone, email, url));
+                    senatorList.add(new Senator(name, position, address, phone, tollfree, url));
                 }
             }
 
             driver.quit();
 
-            // ✅ Write clean output
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("senators_clean.json"), senatorList);
 
-            System.out.println("✅ Clean data saved to senators_clean.json!");
-            System.out.println("✅ Total unique senators found: " + senatorList.size());
+            System.out.println("Clean data saved to senators_clean.json!");
+            System.out.println("Total unique senators found: " + senatorList.size());
 
         } catch (Exception e) {
             e.printStackTrace();
