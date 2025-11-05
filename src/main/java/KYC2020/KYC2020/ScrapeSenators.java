@@ -76,9 +76,7 @@ public class ScrapeSenators {
             driver.quit();
             System.out.println(senatorList);
 
-//            ObjectMapper mapper = new ObjectMapper();
-//            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("./senators_clean.json"), senatorList);
-            // create temp directory inside project root (portable)
+
             File projectRoot = new File(System.getProperty("user.dir")); // your repository root when running
             File tempDir = new File(projectRoot, "temp");
             if (!tempDir.exists()) {
@@ -88,19 +86,16 @@ public class ScrapeSenators {
                 }
             }
 
-// prepare output file in temp
+
             File outputFile = new File(tempDir, "senators_clean.json");
 
-// optional: remove old file first
             if (outputFile.exists()) {
                 outputFile.delete();
             }
 
-// write JSON
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, senatorList);
 
-// print normalized absolute path (canonicalPath removes ./ and ../ etc)
             try {
                 System.out.println("✅ JSON saved to: " + outputFile.getCanonicalPath());
             } catch (Exception e) {
@@ -134,4 +129,3 @@ public class ScrapeSenators {
         }
     }
 }
-// final json //
