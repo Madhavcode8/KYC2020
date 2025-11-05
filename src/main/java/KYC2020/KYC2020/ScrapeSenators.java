@@ -76,11 +76,38 @@ public class ScrapeSenators {
             driver.quit();
             System.out.println(senatorList);
 
-            ObjectMapper mapper = new ObjectMapper();
+//            ObjectMapper mapper = new ObjectMapper();
 //            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("./senators_clean.json"), senatorList);
-            String outputPath = "C:\\Users\\Madhav.Singhal\\OneDrive - Reliance Corporate IT Park Limited\\Desktop\\KYC2020-JAVA-BACKEND\\KYC2020/senators_clean.json";
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(outputPath), senatorList);
-            System.out.println("✅ JSON saved to: " + outputPath);
+            // create temp directory inside project root (portable)
+            File projectRoot = new File(System.getProperty("user.dir")); // your repository root when running
+            File tempDir = new File(projectRoot, "temp");
+            if (!tempDir.exists()) {
+                boolean ok = tempDir.mkdirs();
+                if (!ok) {
+                    System.out.println("Warning: could not create temp directory at " + tempDir.getAbsolutePath());
+                }
+            }
+
+// prepare output file in temp
+            File outputFile = new File(tempDir, "senators_clean.json");
+
+// optional: remove old file first
+            if (outputFile.exists()) {
+                outputFile.delete();
+            }
+
+// write JSON
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, senatorList);
+
+// print normalized absolute path (canonicalPath removes ./ and ../ etc)
+            try {
+                System.out.println("✅ JSON saved to: " + outputFile.getCanonicalPath());
+            } catch (Exception e) {
+                // fallback
+                System.out.println("✅ JSON saved to: " + outputFile.getAbsolutePath());
+            }
+            System.out.println("Total unique senators found: " + senatorList.size());
 
 
             System.out.println("Clean data saved to senators_clean.json!");
