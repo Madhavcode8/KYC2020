@@ -8,7 +8,7 @@
 
 ---
 
-## 🛠️ Steps Performed in the Project for Scraping Data Using Selenium
+##  Steps Performed in the Project for Scraping Data Using Selenium
 
 1.  **PROJECT SETUP**: Initialize the project and add dependencies in the `pom.xml` file.
     * **Dependencies added are:**
@@ -24,12 +24,12 @@
 
 ---
 
-## ⏱️ Project Summary
+##  Project Summary
 
 All data steps performed, including initialization, testing, data scraping, and web crawling HTML, took a total time of **2 hours**.
 
 ---
 
-## 🔗 Project Demo Link
+##  Project Demo Link
 
 [Google Drive Folder](https://drive.google.com/drive/u/0/folders/1CAzXAjYau7N7GFm7M1hsP_uup3tNWdVc)
