@@ -9,6 +9,9 @@
         <module name="KYC2020" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Kyc2020" target="25" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

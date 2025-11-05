@@ -2,9 +2,29 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="ecomm3" />
+      <option name="name" value="ecomm3" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-3/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm4" />
+      <option name="name" value="ecomm4" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-4/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm2" />
+      <option name="name" value="ecomm2" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jio-digitalapi-docker" />
+      <option name="name" value="jio-digitalapi-docker" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/jio-digitalapi-docker/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -12,9 +32,39 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="ecomm6" />
+      <option name="name" value="ecomm6" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-6/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm7" />
+      <option name="name" value="ecomm7" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-7/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm9" />
+      <option name="name" value="ecomm9" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-remote-1/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm5" />
+      <option name="name" value="ecomm5" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-5/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm1" />
+      <option name="name" value="ecomm1" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ecomm8" />
+      <option name="name" value="ecomm8" />
+      <option name="url" value="http://devopsartifact.jio.com/artifactory/mvn_all_virtual-remote/" />
     </remote-repository>
   </component>
 </project>
