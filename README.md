@@ -1,5 +1,3 @@
-Hey I Madhav Singhal here,
-
 KYC2020 PROJECT FOR WEB SCRAPING
 Project: Web Scraper for Alaska Senators Legislature	from {https://akleg.gov/senate.php}
 Goal: Automate data extraction from the Alaska State Legislature website and store details in a structured JSON format.

@@ -74,9 +74,14 @@ public class ScrapeSenators {
             }
 
             driver.quit();
+            System.out.println(senatorList);
 
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("senators_clean.json"), senatorList);
+//            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("./senators_clean.json"), senatorList);
+            String outputPath = "C:\\Users\\Madhav.Singhal\\OneDrive - Reliance Corporate IT Park Limited\\Desktop\\KYC2020-JAVA-BACKEND\\KYC2020/senators_clean.json";
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(outputPath), senatorList);
+            System.out.println("✅ JSON saved to: " + outputPath);
+
 
             System.out.println("Clean data saved to senators_clean.json!");
             System.out.println("Total unique senators found: " + senatorList.size());
