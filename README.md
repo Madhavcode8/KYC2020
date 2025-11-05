@@ -1,27 +1,35 @@
-KYC2020 PROJECT FOR WEB SCRAPING
-Project: Web Scraper for Alaska Senators Legislature	from {https://akleg.gov/senate.php}
-Goal: Automate data extraction from the Alaska State Legislature website and store details in a structured JSON format.
-Languages & Tools: Java, Selenium, Jackson, WebDriverManager
+#  KYC2020 Project
 
-STEPS I HAVE PERFORMED IN THE PROJECT FOR SCRAPING DATA USING SELENIUM
-1) PROJECT SETUP - Initialize the project and add dependencies in the pom file, dependencies added are:
-a)Selenium Webdriver - for website opening and interaction with elements to find HTML elem 
-b)WebDriverManager - for matching browser driver to work on the browser
-c)Jackson Databind - to convert java obj to JSON
+**Source URL:** [https://akleg.gov/senate.php](https://akleg.gov/senate.php)
 
-2)Created the class and constructors and defined all required fields according to data present on alaska HTML 
+**Goal:** Automate data extraction from the Alaska State Legislature website and store details in a structured **JSON** format.
 
-3)Added drivers for opening website and sleep method for crawling time
+**Languages & Tools:** **Java**, **Selenium**, **Jackson**, **WebDriverManager**
 
-4)I have configured two sections on alaska Html and inspected html in chrome and extracted data using css selectors
-  and as same configured and using scraping tool find 2nd section of data
+---
 
-5)As some fields are empty i have removed duplicates anb removes empty data set
+## 🛠️ Steps Performed in the Project for Scraping Data Using Selenium
 
-6)Using Jacksons object mapper converted data to JSON
+1.  **PROJECT SETUP**: Initialize the project and add dependencies in the `pom.xml` file.
+    * **Dependencies added are:**
+        * **Selenium Webdriver** - For website opening and interaction with elements to find HTML elements.
+        * **WebDriverManager** - For matching the browser driver to the browser.
+        * **Jackson Databind** - To convert Java objects to JSON.
+2.  Created the class and constructors and defined all required fields according to data present on the Alaska HTML.
+3.  Added drivers for opening the website and a `sleep` method for crawling time.
+4.  Configured two sections on the Alaska HTML, inspected HTML in Chrome, and extracted data using **CSS selectors**. The second section of data was configured and found using the scraping tool.
+5.  Removed duplicates and empty data sets, as some fields were empty.
+6.  Converted data to **JSON** using Jackson's `ObjectMapper`.
+7.  Printed the resulting JSON.
 
-7)Json Printed 
+---
 
-Mentioned all data steps performed and time taken by me in this is 2hours in that time initialization,testing,scraping data, and web crawling html performed
+## ⏱️ Project Summary
 
-PROJECT DEMO LINK : https://drive.google.com/drive/folders/1CAzXAjYau7N7GFm7M1hsP_uup3tNWdVc?usp=drive_link
+All data steps performed, including initialization, testing, data scraping, and web crawling HTML, took a total time of **2 hours**.
+
+---
+
+## 🔗 Project Demo Link
+
+[Google Drive Folder](https://drive.google.com/drive/folders/1CAzXAjYauN7GFm7M1hsP_uup3tNWdVc?usp=drive_link)
