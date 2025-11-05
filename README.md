@@ -32,4 +32,4 @@ All data steps performed, including initialization, testing, data scraping, and 
 
 ## 🔗 Project Demo Link
 
-[Google Drive Folder](https://drive.google.com/drive/folders/1CAzXAjYauN7GFm7M1hsP_uup3tNWdVc?usp=drive_link)
+[Google Drive Folder](https://drive.google.com/drive/u/0/folders/1CAzXAjYau7N7GFm7M1hsP_uup3tNWdVc)
